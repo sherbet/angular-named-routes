@@ -15,13 +15,14 @@ describe 'namedRoutes.directives', ->
   it "resolves a simple routename", ->
     markup = "<a data-named-route='product-list'>Products</a>"
     element =  compileLink markup, $scope
-    
+
     expect element
       .toBeDefined()
     expect element.attr('href')
       .toBeDefined()
     expect element.attr('href')
       .toEqual "/products"
+
 
   it "should resolve a routename with args", ->
     markup = "<a data-named-route='product-detail' data-args='[16]'>Products #16</a>"
@@ -67,3 +68,26 @@ describe 'namedRoutes.directives', ->
       .toBeDefined()
     expect element.attr('href')
       .toEqual "/products/fish/34"
+
+  describe "optional parameters", ->
+    it "should resolve a routename missing an optional arg by omitting the url section", ->
+      markup = """<a data-named-route='product-category-section' data-kwarg-tag='fish' data-kwarg-section='cartoon'>Products tagged Fish. (page 34)</a>"""
+      element =  compileLink markup, $scope
+
+      expect element
+        .toBeDefined()
+      expect element.attr('href')
+        .toBeDefined()
+      expect element.attr('href')
+        .toEqual "/products/fish/cartoon"
+
+    it "should resolve a routename containing an optional arg", ->
+      markup = """<a data-named-route='product-category-section' data-kwarg-tag='fish' data-kwarg-page='34' data-kwarg-section='cartoon'>Products tagged Fish. (page 34)</a>"""
+      element =  compileLink markup, $scope
+
+      expect element
+        .toBeDefined()
+      expect element.attr('href')
+        .toBeDefined()
+      expect element.attr('href')
+        .toEqual "/products/fish/34/cartoon"

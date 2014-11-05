@@ -18,5 +18,9 @@ beforeEach( module ($routeProvider, $locationProvider) ->
       name: "product-category"
       controller: angular.noop
 
+    .when "/products/:tag/:page?/:section",
+      name: "product-category-section"
+      controller: angular.noop
+
   return
 )

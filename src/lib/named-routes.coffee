@@ -56,19 +56,24 @@ angular.module "zj.namedRoutes", []
               return routes
 
             resolve: (route, options) ->
-              pattern = /(\:\w+)/g
+              pattern = /(\:[\w\?]+)/g
               if route is undefined
                 throw new Error("Can't resolve undefined into a route")
 
               count = 0
-              prefix + route.replace pattern, (match, ..., offset) ->
+              resolved = prefix + route.replace pattern, (match, ..., offset) ->
                 if type(options) is 'array'
                   output = options[count]
                   count++
                   return output
                 else if type(options) is 'object'
-                  return options[match.slice(1)]
+                  value = options[match.slice(1).replace('?', '')]
+                  if value || match.indexOf('?') == -1
+                    value
+                  else
+                    ''
 
+              resolved.replace(/\/\//g, '/')
       ]
       return this
     ]
