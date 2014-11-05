@@ -50,6 +50,3 @@ describe 'namedRoutes.filters', ->
       .toBeDefined()
     expect path
       .toEqual "/products/fish/34"
-
-
-
